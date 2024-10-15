@@ -7,60 +7,58 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# README - CRM Report Feature in Laravel
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Overview
+This feature enhances the CRM system by adding a report generation capability, allowing users to view and filter call data based on various criteria. The report includes detailed information about the calls, such as customer name, email, phone number, agent, call duration, and timestamp. The feature is designed to handle large datasets efficiently and supports dynamic filtering options.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Approach
 
-## Learning Laravel
+### Models and Relationships:
+- The `Customer`, `Agent`, and `Call` models are set up with appropriate relationships using Laravel's Eloquent ORM.
+- The `Customer` model has a `hasMany` relationship with the `Call` model, indicating that each customer may have many calls. Additionally, the `Customer` model includes fields for `email` and `phone_number`.
+- The `Agent` model has a `hasMany` relationship with both the `Customer` and `Call` models, indicating that each agent may have many customers and many calls.
+- The `Call` model includes metadata such as duration and timestamp to capture the relevant details of each call. It also has `belongsTo` relationships with both the `Customer` and `Agent` models, ensuring each call is linked to a specific customer and agent.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Controller:
+- The `ReportController` is responsible for handling the report generation logic.
+- Dynamic filtering is implemented in the controller based on request parameters, allowing the report to be filtered by agent, customer, start and end dates, call duration, email, and phone number.
+- The backend is designed to be flexible and ready to handle future attributes such as direction for calls without requiring changes to the backend logic. This ensures that only frontend adjustments are needed when new filtering criteria are introduced.
+- The controller prepares the query with eager loading of related customer and agent models to optimize performance.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Blade Template:
+- The `index.blade.php` template provides a user-friendly interface for viewing the report and applying filters.
+- The template includes dropdowns for selecting agents and customers, date pickers for start and end dates, input fields for filtering by call duration, email, and phone number.
+- Pagination is used to efficiently display large datasets, ensuring that the UI remains responsive even with a significant number of records.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Optimizations:
+- The filtering logic is dynamic and flexible, allowing easy addition of new filters without altering the core logic.
+- Eager loading is used to reduce the number of queries and improve the performance of the report generation.
+- Pagination ensures that only a subset of records is fetched and displayed at any given time, optimizing memory usage and rendering times.
 
-## Laravel Sponsors
+### Bonus Features:
+- Additional filters such as `customer_id`, `email`, and `phone_number` demonstrate the system's adaptability and scalability for future requirements.
+- The structure of the code allows for easy extensions, such as adding more complex filters or exporting the report data.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Assumptions
+- The existing CRM system adheres to Laravel's naming conventions and standard practices.
+- Users are expected to have a basic understanding of Laravel's Eloquent ORM, Blade templating, and routing.
+- The database is populated with valid data for agents, customers, and calls, ensuring that the report displays meaningful results.
 
-### Premium Partners
+## Steps Taken
+- **Model Setup**: Defined the `Customer`, `Agent`, and `Call` models with the appropriate relationships (`hasMany` and `belongsTo`). Added fields for `email` and `phone_number` to the `Customer` model.
+- **Controller Development**: Implemented the `ReportController` to manage the report generation and filtering logic.
+- **Blade Template Creation**: Developed `index.blade.php` to display the report and provide filtering options to the user.
+- **Dynamic Filtering Implementation**: Added support for filtering by various criteria dynamically based on request parameters. The backend is designed to accommodate future filters seamlessly.
+- **Performance Optimization**: Used eager loading and pagination to optimize the handling of large datasets.
+- **Bonus Implementation**: Demonstrated the flexibility of the filtering system with additional filters for `customer_id`, `email`, and `phone_number`.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## How to Use
+- Access the report by navigating to the `/reports` route in your Laravel application.
+- Utilize the filters provided in the form to refine the list of calls based on agent, customer, date range, call duration, email, and phone number.
+- The results are displayed in a paginated table format, allowing for easy navigation through the dataset.
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Notes
+- Ensure that the database is seeded with relevant data for agents, customers, and calls to generate meaningful reports.
+- The filtering logic can be extended by adding more fields in the Blade template and adjusting the controller accordingly.

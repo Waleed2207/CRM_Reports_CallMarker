@@ -6,7 +6,9 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
-
+<p align="center">
+   <img width="1726" alt="view" src="https://github.com/user-attachments/assets/6adbbca3-a8ee-4f28-a199-d8d1250f68dd">
+</p>
 
 # README - CRM Report Feature in Laravel
 
